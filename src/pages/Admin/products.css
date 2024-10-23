@@ -1,0 +1,64 @@
+.nuevo {
+    margin-bottom: 20px;
+    padding: 10px;
+    font-size: 18px;
+    color: white;
+    background-color: #1877f2;
+    /* background-color: #181818; */
+    cursor: pointer;
+    border-radius: 5px;
+    border: 1px solid #1877f2;
+}
+
+.nuevo:hover {
+    background-color: #1666cf;
+}
+
+.user {
+    padding: 7px;
+    font-size: 15px;
+    color: white;
+    background-color: #1877f2;
+    /* background-color: #181818; */
+    cursor: pointer;
+    border-radius: 5px;
+    /* color: #fff; */
+    border: 1px solid #1877f2;
+}
+
+.user:hover {
+    background-color: #1666cf;
+}
+
+.textField {
+    height: 32px;
+    width: 200px;
+    border: 1px solid #e5e5e5;
+    padding: 0 32px 0 16px;
+    border-radius: 15px;
+}
+
+.textField:hover {
+    border: none;
+}
+
+.btnBuscar {
+    height: 30px;
+    width: 30px;
+    margin-left: 5px;
+    border-radius: 5px;
+    border: 1px solid GREY;
+    cursor: pointer;
+    /* text-align: center;
+    align-items: center;
+    justify-content: center; */
+}
+
+.btnBuscar:hover {
+    background-color: rgb(215, 215, 215);
+}
+
+.barraBusqueda {
+    float: right;
+    padding-bottom: 20px;
+}

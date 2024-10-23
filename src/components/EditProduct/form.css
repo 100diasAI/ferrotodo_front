@@ -1,0 +1,136 @@
+.formulario {
+    width: 450px;
+    border: 1px solid gray;
+    margin: auto;
+    -webkit-box-shadow: 0px 4px 15px 0px rgba(153, 153, 153, 1);
+    -moz-box-shadow: 0px 4px 15px 0px rgba(153, 153, 153, 1);
+    box-shadow: 0px 4px 15px 0px rgba(153, 153, 153, 1);
+    border-radius: 8px;
+    margin-top: 2rem;
+    margin-bottom: 2rem;
+    overflow: hidden;
+    display: flex;
+    flex-direction: column;
+}
+
+.formulario label {
+    font-size: 14px;
+    font-weight: 600;
+    margin: 3px 20px 5px 0px;
+}
+
+.formulario input {
+    padding: 8px;
+    border-radius: 5px;
+    border: 1px solid #999;
+    width: 100%;
+    margin-bottom: 5px;
+    outline: none;
+}
+
+.inputError{
+    background-color:#F5B7B1;
+    padding: 8px;
+    border-radius: 5px;
+    border: 2px solid #999;
+    border-color: red;
+    width: 100%;
+    margin-bottom: 5px;
+    outline: none;
+}
+
+.formulario button {
+    display: block;
+    margin-right: auto;
+    margin-left: auto;
+    margin-top: 15px;
+    width: 70px;
+    padding: 5px;
+    font-size: 18px;
+    color: white;
+    background-color: #1877f2;
+    cursor: pointer;
+    border-radius: 5px;
+    border: 1px solid #1877f2;
+}
+
+.errors {
+    font-size: 14px;
+    font-weight: 600;
+    margin: 3px 20px 5px 0px;
+    color: red;
+}
+
+#botonBloqueado{
+    background-color: gray;
+    border: none;
+    cursor:default;
+}
+
+#boton{
+    align-self: center;
+    margin-top: 1rem;
+    margin-bottom: 1rem;
+    width: 80%;
+    padding: 10px;
+    background-color: #181818;
+    border-color: #181818;
+    border-radius: 5px;
+    color: #fff;
+    font-size: 15px;
+    font-weight: 500;
+    cursor: pointer;
+}
+
+#boton:hover{
+    background-color: whitesmoke;
+    color: black;
+    cursor: pointer;
+    border-color: black;
+    border-style: solid;
+}
+
+#selectCat{
+    margin-right: auto;
+    margin-left: auto;
+    width: 100%;
+    padding: 8px;
+    border-radius: 5px;
+    border: 1px solid #999;
+    width: 100%;
+    margin-bottom: 5px;
+    outline: none;
+}
+
+#checkLabel{
+    display: grid;
+    font-size: 10px;
+    width:50px;
+    /* background-color: #1877f2; */
+    grid-template-columns: repeat(2,1fr);
+}
+
+#checkContainer{
+    /* background-color: red; */
+    display: grid;
+    grid-template-columns: repeat(3,1fr);
+    flex-direction: column;
+    justify-self: center;
+}
+
+#inputTalle{
+    width: 1.5rem;
+    height: 1.5rem;
+    margin-left: 1rem;
+}
+
+#spanTalle{
+    margin-left: 1rem;
+    font-size: 0.7rem;
+}
+
+#contenedorForm{
+    /* background-color: red; */
+    width: 100%;
+    display: flex;
+}

@@ -1,0 +1,32 @@
+#contenedorDatos{
+    margin: auto;
+    margin-top: 1rem;
+    /* margin-bottom: 40px; */
+    display: flex;
+    flex-direction: column;
+    width: 90%;
+    max-width: 400px;
+    padding: 15px;
+}
+
+.itemLista{
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    margin: auto;
+    /* background-color: #F5B7B1; */
+    width: 100%;
+}
+
+#lista{
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+}
+
+.items{
+    font-size: 14px;
+    font-weight: 600;
+    margin: 3px 20px 5px 0px;
+    text-align: right;
+}

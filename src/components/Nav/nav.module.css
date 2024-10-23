@@ -1,0 +1,191 @@
+.full {
+  width: 100%;
+  font-family: "Raleway", sans-serif;
+}
+
+.container > li > a {
+  text-decoration: none;
+}
+
+.searchbar {
+  font-size: 14px;
+  font-family: arial, sans-serif;
+  color: #202124;
+  display: flex;
+  z-index: 3;
+  height: 44px;
+  background: white;
+  border: 1px solid #dfe1e5;
+  box-shadow: none;
+  border-radius: 24px;
+  margin: 0 auto;
+  width: auto;
+  max-width: 500px;
+}
+
+.searchbar:hover {
+  box-shadow: 0 1px 6px rgb(32 33 36 / 28%);
+  border-color: rgba(223, 225, 229, 0);
+}
+
+.searchbar_wrapper {
+  flex: 1;
+  display: flex;
+  padding: 5px 8px 0 14px;
+}
+
+.searchbar_left {
+  font-size: 14px;
+  font-family: arial, sans-serif;
+  color: #202124;
+  display: flex;
+  align-items: center;
+  padding-right: 13px;
+  margin-top: -5px;
+}
+
+.search_icon_wrapper {
+  margin: auto;
+}
+
+.search_icon {
+  margin-top: 3px;
+  color: #9aa0a6;
+  height: 20px;
+  line-height: 20px;
+  width: 20px;
+}
+
+.searchbar_center {
+  /* display: flex; */
+  flex: 1;
+  flex-wrap: wrap;
+}
+
+.searchbar_input_spacer {
+  color: transparent;
+  flex: 100%;
+  white-space: pre;
+  height: 34px;
+  font-size: 16px;
+}
+
+.searchbar_input {
+  background-color: transparent;
+  border: none;
+  margin: 0;
+  padding: 0;
+  color: rgba(0, 0, 0, 0.87);
+  word-wrap: break-word;
+  outline: none;
+  display: flex;
+  flex: 100%;
+  margin-top: -37px;
+  height: 34px;
+  font-size: 16px;
+  max-width: 100%;
+  width: 100%;
+}
+
+.searchbar_right {
+  display: flex;
+  flex: 0 0 auto;
+  margin-top: -5px;
+  align-items: stretch;
+  flex-direction: row;
+}
+
+.searchbar_clear_icon {
+  margin-right: 12px;
+}
+
+.voice_search {
+  flex: 1 0 auto;
+  display: flex;
+  cursor: pointer;
+  align-items: center;
+  border: 0;
+  background: transparent;
+  outline: none;
+  padding: 0 8px;
+  width: 2.8em;
+}
+
+.icons {
+  margin: 0 5px;
+  font-weight: lighter;
+}
+
+.icons:hover {
+  animation: myAnim 5s linear 0s infinite normal forwards;
+  cursor: pointer;
+}
+
+@keyframes myAnim {
+  0%,
+  50%,
+  100% {
+    opacity: 0.9;
+  }
+
+  25%,
+  75% {
+    opacity: 0.1;
+  }
+}
+
+.searching {
+  width: 500px;
+}
+
+@media (max-width: 872px) {
+  .full {
+    width: 100vw;
+    z-index: 9999;
+    font-family: "Raleway", sans-serif;
+  }
+
+  .container {
+    grid-template-columns: 1fr 2fr 0.5fr 0.5fr 0.5fr;
+  }
+
+  .searching {
+    width: 300px;
+  }
+}
+
+@media (max-width: 650px) {
+  .container {
+    grid-template-columns: 1fr 1fr 1fr 0.5fr 0.5fr;
+  }
+
+  .searching {
+    width: 200px;
+    margin-right: 10px;
+  }
+
+  .logo {
+    /* height: 50px; */
+    width: 10px;
+  }
+
+  /* .logoDark {
+    height: 60px;
+    width: 150px;
+  } */
+  .logoDark {
+    width: 150px;
+  }
+}
+
+.logo {
+  max-width: 300px;
+  height: 70px;
+  fill: rgb(0, 0, 0);
+}
+
+.logoDark {
+  max-width: 300px;
+  height: 70px;
+  fill: rgb(255, 255, 255);
+}

@@ -1,0 +1,133 @@
+.formularioContainer{
+    /* background-color: red; */
+    margin: auto;
+    margin-top: 1rem;
+    /* margin-bottom: 1rem; */
+    display: flex;
+    flex-direction: column;
+    width: 90%;
+    max-width: 400px;
+    padding: 15px;
+    /* border-radius: 8px; */
+    /* -webkit-box-shadow: 0px 4px 15px 0px rgba(153, 153, 153, 1);
+    -moz-box-shadow: 0px 4px 15px 0px rgba(153, 153, 153, 1);
+    box-shadow: 0px 4px 15px 0px rgba(153, 153, 153, 1); */
+}
+
+label{
+    font-size: 14px;
+    font-weight: 600;
+    margin: 3px 20px 5px 0px;
+}
+
+.inputDatos{
+    /* background-color:whitesmoke; */
+    padding: 8px;
+    border-radius: 5px;
+    border: 1px solid #999;
+    width: 100%;
+    margin-bottom: 5px;
+    outline: none;
+}
+
+.inputDatosError{
+    background-color:#F5B7B1;
+    padding: 8px;
+    border-radius: 5px;
+    border: 2px solid #999;
+    border-color: red;
+    width: 100%;
+    margin-bottom: 5px;
+    outline: none;
+}
+
+.indicador{
+    font-size: 14px;
+    font-weight: 600;
+    margin: 3px 20px 5px 0px;
+    color: red;
+}
+
+.i{
+    color: rgba(10,10,10, 0);
+}
+
+#boton{
+    align-self: center;
+    margin-top: 15px;
+    margin-bottom: 15px;
+    width: 80%;
+    padding: 10px;
+    background-color: #181818;
+    border-radius: 5px;
+    color: #fff;
+    font-size: 15px;
+    font-weight: 500;
+    cursor: pointer;
+}
+
+#boton:hover{
+    background-color: whitesmoke;
+    color: black;
+    cursor: pointer;
+    border-color: black;
+    border-style: solid;
+}
+
+#botonBloqueado{
+    align-self: center;
+    margin-top: 15px;
+    margin-bottom: 15px;
+    width: 80%;
+    padding: 10px;
+    border-radius: 5px;
+    color: #fff;
+    font-size: 15px;
+    font-weight: 500;
+    cursor: pointer;
+    background-color: rgb(66, 75, 84);
+}
+
+.pagar{
+    margin: auto;
+    margin-top: 1rem;
+}
+
+.itemsLista{
+    display: flex;
+    flex-direction: column;
+    margin: auto;
+    /* background-color: #F5B7B1; */
+    width: 100%;
+}
+
+#lista{
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+}
+
+.rbLabel{
+    /* margin-left: 1rem; */
+    /* background-color: red; */
+    font-size: 1rem;
+    text-align: center;
+    vertical-align: middle;
+    height: 2rem;
+    display: flex;
+}
+
+.radio{
+    border: 0px;
+    width: 1rem;
+    height: 1rem;
+}
+
+#mapa{
+    /* border-style: solid; */
+    /* border-color: black; */
+    -webkit-box-shadow: 0px 4px 15px 0px rgba(153, 153, 153, 1);
+    -moz-box-shadow: 0px 4px 15px 0px rgba(153, 153, 153, 1);
+    box-shadow: 0px 4px 15px 0px rgba(153, 153, 153, 1);
+    /* border-radius: 1rem; */
+}
