@@ -33,3 +33,33 @@ export const DeleteButton = styled(Button)`
         color:black;
     }
 `
+
+export const Div = styled.div`
+  ...
+  width: 100%;
+  max-width: 1440px;
+  padding: 1rem;
+  @media (max-width: 768px) {
+    grid-template-columns: 1fr;
+  }
+`;
+
+export const ImageContainer = styled.div`
+  ...
+  @media (max-width: 768px) {
+    margin: 20px;
+  }
+`;
+
+export const Image = styled.img`
+  ...
+  max-width: 100%;
+  height: auto;
+`;
+
+export const InfoContainer = styled.div`
+  ...
+  @media (max-width: 768px) {
+    padding: 0.5rem;
+  }
+`;

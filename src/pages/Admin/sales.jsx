@@ -182,6 +182,9 @@ export default function Sales() {
         paginationComponentOptions={paginacionOpciones}
         fixedHeader
         fixedHeaderScrollHeight="600px"
+        /* responsive
+        expandableRows
+        expandableRowsComponent={ExpandedComponent} */
       />
     </div>
   )

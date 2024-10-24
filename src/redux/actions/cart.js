@@ -8,6 +8,8 @@ import {
   REMOVE_CART,
   REMOVE_LOCAL_CART,
   SET_LOCAL_CART,
+  SET_LOCAL_STORAGE,
+  GET_LOCAL_STORAGE,
 } from "./actionTypes";
 
 export const addToCart = (order) => {
@@ -51,21 +53,30 @@ export const removeOrder = (id, talle) => {
     },
   };
 };
-export const setLocalStorage = (data) => {
-  let item = JSON.parse(localStorage.getItem("cart"));
-  if (!item) {
-    localStorage.setItem("cart", JSON.stringify(data));
-  } else {
-    item.shoppingCart = data.shoppingCart;
-    item.cartRemainingStock=data.cartRemainingStock;
-    // item.order = data.order;
-    localStorage.setItem("cart", JSON.stringify(item));
-  }
+export const setLocalStorage = (cart, userId) => {
+  return (dispatch) => {
+    localStorage.setItem(`cart_${userId}`, JSON.stringify(cart));
+    dispatch({
+      type: SET_LOCAL_STORAGE,
+      payload: cart,
+    });
+  };
+};
 
-  return {
-    type: 'SET_LOCAL_CART',    
-  }
-}
+export const getLocalStorage = (userId) => {
+  return (dispatch) => {
+    const cart = JSON.parse(localStorage.getItem(`cart_${userId}`)) || {
+      shoppingCart: [],
+      order: [],
+      cartRemainingStock: [],
+    };
+    dispatch({
+      type: GET_LOCAL_STORAGE,
+      payload: cart,
+    });
+  };
+};
+
 export const clearLocalStorage = ()=>{
   localStorage.removeItem("cart")
   return{

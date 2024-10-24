@@ -36,18 +36,58 @@ export const Img = styled.img`
   -moz-box-shadow: 0px 4px 15px 0px rgba(153, 153, 153, 1);
   box-shadow: 0px 4px 15px 0px rgba(153, 153, 153, 1);
 `;
-export const ImgContainer = styled.div`
-  width: fit-content;
-  align-self: center;
-`;
-export const LinkTo = styled(Link)`
-  text-decoration: none;
-`;
-export const Text = styled.div`
+
+export const CardContainer = styled.div`
   display: flex;
   flex-direction: column;
-  align-items: flex-start;
+  align-items: center;
+  padding: 20px;
+  border-radius: 8px;
+  box-shadow: 0px 4px 15px 0px rgba(153, 153, 153, 0.5);
+  position: relative;
+  transition: transform 0.3s ease;
+
+  &:hover {
+    transform: translateY(-5px);
+  }
 `;
+
+export const ImgContainer = styled.div`
+  width: 100%;
+  height: 200px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  overflow: hidden;
+  margin-bottom: 15px;
+
+  img {
+    max-width: 100%;
+    max-height: 100%;
+    object-fit: contain;
+  }
+`;
+
+export const LinkTo = styled(Link)`
+  text-decoration: none;
+  color: inherit;
+`;
+
+export const Text = styled.div`
+  text-align: center;
+  margin-bottom: 10px;
+
+  h3 {
+    margin-bottom: 5px;
+  }
+
+  p {
+    font-size: 0.9em;
+    color: #666;
+  }
+`;
+
 export const Price = styled.h4`
-  align-self: center;
+  font-weight: bold;
+  color: #4a4a4a;
 `;

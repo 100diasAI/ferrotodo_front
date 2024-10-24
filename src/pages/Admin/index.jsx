@@ -3,6 +3,7 @@ import BarChart from "../../components/DashboardAdmin/graficoBarras";
 import LineChart from "../../components/DashboardAdmin/graficoLineas";
 import Totales from "../../components/DashboardAdmin/Totales";
 import './index.css'
+
 export default function Admin() {
     document.title = "FerreTodo - Admin";
     window.scrollTo({
@@ -10,11 +11,11 @@ export default function Admin() {
         behavior: "smooth",
     });
     return (
-        <div>
+        <div style={{maxWidth: '100%', overflowX: 'hidden', padding: '20px'}}>
             <Totales />
-            <div className="graficos">
-            <LineChart />
-            <BarChart />
+            <div className="graficos" style={{display: 'flex', flexDirection: 'column', gap: '28px', marginTop: '20px'}}>
+                <LineChart />
+                <BarChart />
             </div>
         </div>
     );

@@ -1,0 +1,13 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 200 50">
+  <style>
+    .text { font-family: Arial, sans-serif; font-weight: bold; }
+    .light { fill: #333; }
+    .dark { fill: #fff; }
+  </style>
+  <g class="text light">
+    <path d="M10 40V10h30v5H15v7h20v5H15v8h25v5H10zM55 40V10h5v25h25v5H55zM90 40V10h30v5H95v7h20v5H95v13h-5zM125 40V10h30v5h-25v7h20v5h-20v8h25v5h-30zM160 40V10h5v30h-5z"/>
+  </g>
+  <g class="text dark" style="display:none">
+    <path d="M10 40V10h30v5H15v7h20v5H15v8h25v5H10zM55 40V10h5v25h25v5H55zM90 40V10h30v5H95v7h20v5H95v13h-5zM125 40V10h30v5h-25v7h20v5h-20v8h25v5h-30zM160 40V10h5v30h-5z"/>
+  </g>
+</svg>

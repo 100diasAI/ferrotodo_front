@@ -31,11 +31,12 @@
 }
 
 .textField {
-    height: 32px;
+    height: 36px;
     width: 200px;
     border: 1px solid #e5e5e5;
-    padding: 0 32px 0 16px;
-    border-radius: 15px;
+    padding: 0 10px;
+    border-radius: 4px;
+    margin-right: 10px;
 }
 
 .textField:hover {
@@ -43,22 +44,43 @@
 }
 
 .btnBuscar {
-    height: 30px;
-    width: 30px;
-    margin-left: 5px;
-    border-radius: 5px;
-    border: 1px solid GREY;
+    height: 36px;
+    width: 36px;
+    border-radius: 4px;
+    border: 1px solid #e5e5e5;
+    background-color: #f5f5f5;
     cursor: pointer;
-    /* text-align: center;
+    display: flex;
+    justify-content: center;
     align-items: center;
-    justify-content: center; */
+    margin-left: 5px;
 }
 
 .btnBuscar:hover {
-    background-color: rgb(215, 215, 215);
+    background-color: #e5e5e5;
 }
 
 .barraBusqueda {
-    float: right;
-    padding-bottom: 20px;
+    display: flex;
+    justify-content: flex-end;
+    align-items: center;
+    padding: 20px 0;
+    margin-bottom: 20px;
+}
+
+@media (max-width: 768px) {
+    .barraBusqueda {
+        flex-wrap: wrap;
+        justify-content: center;
+    }
+
+    .textField {
+        width: 100%;
+        margin-bottom: 10px;
+    }
+
+    .btnBuscar {
+        width: 48%;
+        margin: 5px;
+    }
 }

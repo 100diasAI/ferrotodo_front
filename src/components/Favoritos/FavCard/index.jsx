@@ -1,14 +1,10 @@
-import { useEffect } from "react";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { getFavProducts } from "../../../redux/actions/favoritos";
 import Loading from "../../Loader";
 import FavIcon from "../../FavContainer";
 import {
-  CardLi,
-  CardList,
-  FavContainer,
-  Img,
+  CardContainer,
   ImgContainer,
   LinkTo,
   Price,
@@ -23,50 +19,33 @@ export default function FavCard({ productId }) {
 
   useEffect(() => {
     dispatch(getFavProducts(productId));
-    const product = favProducts.filter((p) => p.id === productId);
-    setData(product[0]);
-    // console.log(product)
-  }, []);
+  }, [dispatch, productId]);
 
   useEffect(() => {
     if (favProducts) {
-      const product = favProducts.filter((p) => p.id === productId);
-      setData(product[0]);
+      const product = favProducts.find((p) => p.id === productId);
+      if (product) {
+        setData(product);
+        setIsLoading(false);
+      }
     }
-    if (data && Object.keys(data).length) {
-      setIsLoading(false);
-    }
-  }, [data, favProducts]);
+  }, [favProducts, productId]);
+
+  if (isLoading) return <Loading />;
+
   return (
-    <div>
-      {isLoading ? (
-        <Loading />
-      ) : (
-        <main>
-          <CardList>
-            <CardLi>
-              <FavContainer>
-                <FavIcon productId={productId} productName={data.nombre} />
-              </FavContainer>
-              <ImgContainer>
-                <LinkTo to={`/detail/${productId}`}>
-                  <Img src={data.imagen} />
-                </LinkTo>
-              </ImgContainer>
-            </CardLi>
-            <CardLi>
-              <Text>
-                <h3>{data.nombre}</h3>
-                <p>{data.descripcion}</p>
-              </Text>
-            </CardLi>
-            <CardLi>
-              <Price>Precio: {data.precio}</Price>
-              {/* <p>${data.precio}</p> */}
-            </CardLi>
-          </CardList>
-        </main>
-      )}
-    </div>
+    <CardContainer>
+      <FavIcon productId={productId} productName={data.nombre} />
+      <ImgContainer>
+        <LinkTo to={`/detail/${productId}`}>
+          <img src={data.imagen} alt={data.nombre} />
+        </LinkTo>
+      </ImgContainer>
+      <Text>
+        <h3>{data.nombre}</h3>
+        <p>{data.descripcion}</p>
+      </Text>
+      <Price>Precio: ${data.precio}</Price>
+    </CardContainer>
   );
 }

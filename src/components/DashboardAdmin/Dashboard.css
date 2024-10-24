@@ -1,63 +1,71 @@
 .contenedor {
   display: flex;
-  flex-direction: row;
-  /* margin: 1rem auto 0 auto; */
-  /* padding-top: 20px; */
-  padding-bottom: 40px;
-  min-height: 1080px;
-  width: 100%;
-  min-width: 375px;
-  /* max-width: 1440px; */
+  min-height: 100vh;
 }
 
 .sideBar {
-    background: #1e1e1e;;
-    width: 20%;
-    display: flex;
-    flex-direction: column;
+  width: 250px;
+  height: 100vh;
+  background-color: #f3f4f6;
+  position: fixed;
+  left: -250px;
+  transition: left 0.3s ease-in-out;
 }
 
-.sideBar h1{
-    margin: 15px;
-    font-size: 28px;
-    line-height: 70px;
-    color: white;
-    /* background: #1b1b1b; */
-    text-align: center;
-    font-family: 'Open Sans', sans-serif;
-    letter-spacing: 1px;
+.sideBar.open {
+  left: 0;
 }
 
-.sideBar a{
-    text-decoration: none;
-    text-transform: uppercase;
-    color: white;
-    display: block;
-    height: 65px;
-    width: 100%;
-    line-height: 65px;
-    padding-left: 30px;
-    border-bottom: 1px solid rgba(255,255,255,.1);
-    border-top: 1px solid black;
-    box-sizing: border-box;
-    font-family: 'Open Sans', sans-serif;
-    font-weight: bold;
-    letter-spacing: 1px;
+.sideBar h1 {
+  padding: 20px;
+  margin: 0;
+  text-align: center;
 }
 
-.sideBar a:hover{
-    border-left: 5px solid #b93632;
-    color: #b93632;
+.sideBar a {
+  display: block;
+  padding: 15px 20px;
+  color: #333;
+  text-decoration: none;
+  transition: background-color 0.2s;
 }
 
-.sideBar a:active{
-    border-left: 5px solid #b93632;
-    color: #b93632;
+.sideBar a:hover {
+  background-color: #e2e8f0;
 }
 
 .body {
-    background-color: rgba(12,12,12,0.1);
-    border: 1px solid rgba(255,255,255,0.18);
-    width: 80%;
-    padding: 20px;
+  flex-grow: 1;
+  margin-left: 0;
+  padding: 20px;
+  transition: margin-left 0.3s ease-in-out;
+}
+
+.body.shifted {
+  margin-left: 250px;
+}
+
+.menu-toggle {
+  position: fixed;
+  top: 20px;
+  left: 20px;
+  z-index: 1000;
+  background: none;
+  border: none;
+  font-size: 24px;
+  cursor: pointer;
+}
+
+@media (min-width: 768px) {
+  .sideBar {
+    left: 0;
+  }
+
+  .body {
+    margin-left: 250px;
+  }
+
+  .menu-toggle {
+    display: none;
+  }
 }

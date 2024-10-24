@@ -189,6 +189,9 @@ export default function Products() {
         paginationComponentOptions={paginacionOpciones}
         fixedHeader={header}
         fixedHeaderScrollHeight="600px"
+        /* responsive
+        expandableRows
+        expandableRowsComponent={ExpandedComponent} */
       />
       {modal && (<Modal
         cambiarEstado={setModal} datos={EditProduct}

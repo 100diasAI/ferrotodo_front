@@ -199,6 +199,9 @@ export default function Users() {
         paginationComponentOptions={paginacionOpciones}
         fixedHeader
         fixedHeaderScrollHeight="600px"
+        /* responsive
+        expandableRows
+        expandableRowsComponent={ExpandedComponent} */
       />
     </div>
   )

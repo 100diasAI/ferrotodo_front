@@ -1,6 +1,6 @@
-import axios from "axios";
-import { useEffect, useState } from "react";
+import React, { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
+import axios from "axios";
 import { BsTrashFill } from "react-icons/bs";
 import {
   addOrder,
@@ -13,66 +13,65 @@ import { List, Img, Li , Text , Amount, Button , Div , CloseButton, PCant, SPAN,
 import { toast } from "react-toastify";
 import ToastMsg from "../../Toast";
 
-export default function OrderItem({ id , item }) {
-  const [productOrder,setOrder] = useState({
+export default function OrderItem({ id, item }) {
+  const dispatch = useDispatch();
+  const [productOrder, setOrder] = useState({
     id: item.id,
     nombre: item.nombre,
     precio: item.precio,
     cantidad: item.cantidad,
-    subtotal:(item.precio*item.cantidad)
-  })
-  const [cart , currentStock] = useSelector(state=>[ state.cart , state.cart.cartRemainingStock ])
-  const [stock,setStock] = useState(0)
-  const getStock = async ()=>{
-    const product = await axios.get(`http://localhost:3001/product/${item.id}`)
+    subtotal: (item.precio * item.cantidad)
+  });
+  const [cart, currentStock] = useSelector(state => [state.cart, state.cart.cartRemainingStock]);
+  const [stock, setStock] = useState(0);
+  const { user: currentUser } = useSelector((state) => state.auth);
+
+  const getStock = async () => {
+    const product = await axios.get(`http://localhost:3001/product/${item.id}`);
     setStock(product.data.stock);
-  }
-  
-  const dispatch = useDispatch();
+  };
 
-  useEffect(()=>{
-    dispatch(addOrder(productOrder))    
-    getStock()
-    return ()=>{
-      dispatch(setLocalStorage(cart))
-    }
-  },[])
+  useEffect(() => {
+    dispatch(addOrder(productOrder));
+    getStock();
+    return () => {
+      if (currentUser) {
+        dispatch(setLocalStorage(cart, currentUser.id));
+      }
+    };
+  }, []);
 
-  let noRender= true
-  useEffect(()=>{
-    if(!noRender){
-      noRender=false
+  useEffect(() => {
+    dispatch(addOrder(productOrder));
+    if (currentUser) {
+      dispatch(setLocalStorage(cart, currentUser.id));
     }
-    else{
-      dispatch(addOrder(productOrder))
-      dispatch(setLocalStorage(cart))      
-    }
-  },[productOrder])
+  }, [productOrder]);
 
-  const incAmount = ()=>{
-      if (productOrder.cantidad<stock){
-        dispatch(modifyItemStock(id))
+  const incAmount = () => {
+    if (productOrder.cantidad < stock) {
+      dispatch(modifyItemStock(id));
       setOrder({
         ...productOrder,
-        cantidad:productOrder.cantidad+1,
-        subtotal:item.precio*(productOrder.cantidad+1)
-      })
+        cantidad: productOrder.cantidad + 1,
+        subtotal: item.precio * (productOrder.cantidad + 1)
+      });
     }
-  }
+  };
   const decAmount = () => {
     if (productOrder.cantidad > 1) {
-      dispatch(modifyItemStock(id,-1))
+      dispatch(modifyItemStock(id, -1));
       setOrder({
         ...productOrder,
-        cantidad:productOrder.cantidad-1,
-        subtotal:item.precio*(productOrder.cantidad-1)
-      })
+        cantidad: productOrder.cantidad - 1,
+        subtotal: item.precio * (productOrder.cantidad - 1)
+      });
     }
   };
   const removeItem = () => {
-    toast.error(<ToastMsg tipo={"cart"} name={item.nombre} productId={id}/>,{
+    toast.error(<ToastMsg tipo={"cart"} name={item.nombre} productId={id}/>, {
       toastId: `delete${id}`
-    })
+    });
   };
   return (
     <Div key={id}>

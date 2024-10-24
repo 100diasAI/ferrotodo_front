@@ -4,11 +4,14 @@ import { ToastContainer } from "react-toastify";
 export const List = styled.ul`
   list-style: none;
   display: grid;
-  /* grid-template-columns: 20% 60% 20%; */
-  grid-auto-flow: columns;
-  align-items: center;
-  justify-items: center;
-  margin-top: 15px;
+  grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+  gap: 20px;
+  padding: 20px;
+  margin: 0;
+
+  @media (max-width: 768px) {
+    grid-template-columns: 1fr;
+  }
 `;
 
 export const Li = styled.li`
@@ -39,7 +42,7 @@ export const StyledContainer = styled(ToastContainer)`
     
   }
   .Toastify__toast-body {
-    
+    font-family: Arial, sans-serif;
   }
   .Toastify__progress-bar {}
 `

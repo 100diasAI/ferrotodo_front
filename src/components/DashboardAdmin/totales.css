@@ -5,6 +5,7 @@
     padding: 1rem;
     padding: 1rem 1rem 1rem 0;
     border-radius: 1rem;
+    flex-direction: column;
 }
 
 .milestone {
@@ -12,9 +13,9 @@
     justify-content: center;
     align-items: center;
     gap: 1rem;
-    border-right: 3px solid black;
-    padding-right: 6rem;
-    padding-left: 1rem;
+    border-right: none;
+    border-bottom: 3px solid black;
+    padding: 1rem 0;
 }
 
 /* &:last-of-type {
@@ -32,3 +33,15 @@ padding-right: 4rem; */
 h4 {
     color: #f94144;
 } */
+
+@media (min-width: 768px) {
+    .milestones {
+        flex-direction: row;
+    }
+
+    .milestone {
+        border-right: 3px solid black;
+        border-bottom: none;
+        padding-right: 6rem;
+    }
+}

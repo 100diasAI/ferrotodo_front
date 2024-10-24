@@ -86,6 +86,8 @@ const Bitacora = () => {
           highlightOnHover
           pointerOnHover
           responsive
+          /* expandableRows
+          expandableRowsComponent={ExpandedComponent} */
         />
       ) : (
         <div>No hay registros para mostrar</div>

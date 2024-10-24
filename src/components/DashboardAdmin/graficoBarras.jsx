@@ -44,16 +44,23 @@ export default function BarChart() {
     // console.log(numeros)
 
     const options = {
-        fill: true,
+        responsive: true,
+        maintainAspectRatio: false,
         scales: {
             y: {
-                min: 0,
+                beginAtZero: true,
             },
         },
-        responsive: false,
         plugins: {
             legend: {
+                position: 'top',
+            },
+            title: {
                 display: true,
+                text: 'Usuarios',
+                font: {
+                    size: 20
+                }
             },
         },
     };
@@ -72,9 +79,8 @@ export default function BarChart() {
         };
 
     return (
-        <GraficosBarras>
-            <h1>Usuarios</h1>
-            <Bar data={data} options={options} width={385} height={520}/>
-        </GraficosBarras>
+        <div style={{height: '400px', backgroundColor: 'white', padding: '20px', borderRadius: '8px', boxShadow: '0 4px 6px rgba(0, 0, 0, 0.1)'}}>
+            <Bar data={data} options={options} />
+        </div>
     );
 }

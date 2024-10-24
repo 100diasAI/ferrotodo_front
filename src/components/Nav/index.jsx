@@ -1,5 +1,5 @@
-import { useEffect, useState } from "react";
-import { BsFillPersonFill } from "react-icons/bs";
+import React, { useEffect, useState } from "react";
+import { BsFillPersonFill, BsSearch } from "react-icons/bs";
 import { FaShoppingCart } from "react-icons/fa";
 import { ImExit } from "react-icons/im";
 import { RiAdminFill } from "react-icons/ri";
@@ -13,10 +13,10 @@ import Loading from "../Loader";
 import Logo from "./logo";
 import style from "./nav.module.css";
 import Search from "./search";
-import { Contenido, IconStyled, NavStyle } from "./style";
+import { IconStyled, NavStyle } from "./style";
 import { subMenu } from "./submenu";
 
-export default function NavBar({ products, theme }) {
+export default function NavBar({ products = [], theme }) {
   const navigation = useNavigate();
   const dispatch = useDispatch();
   let data = products.map((a) => ({ nombre: a.nombre, im: a.imagen }));
@@ -114,26 +114,24 @@ export default function NavBar({ products, theme }) {
   }
 
   return (
-    <div className={style.full}>
-      <Contenido
-        className={!currentUser ? style.container : style.containerLoggedIn}
-      >
-        <li>
-          <NavLink to="/" className={style.logoActive}>
-            <Logo estilo={theme === "light" ? style.logo : style.logoDark} />
-          </NavLink>
-        </li>
-        <li className={style.searching}>
+    <nav className={`${style.full} ${theme === 'dark' ? 'dark-theme' : 'light-theme'}`}>
+      <div className={style.container}>
+        <NavLink to="/" className={style.logo}>
+          <Logo theme={theme} />
+        </NavLink>
+        <div className={style.searchingContainer}>
           <Search data={data} />
-        </li>
-        {content}
-        <IconStyled className={style.icons}>
-          <NavLink to="/cart">
-            <FaShoppingCart />
-          </NavLink>
-        </IconStyled>
-        {contentExit}
-      </Contenido>
-    </div>
+        </div>
+        <div className={style.icons}>
+          {content}
+          <IconStyled className={style.icon}>
+            <NavLink to="/cart">
+              <FaShoppingCart />
+            </NavLink>
+          </IconStyled>
+          {contentExit}
+        </div>
+      </div>
+    </nav>
   );
 }

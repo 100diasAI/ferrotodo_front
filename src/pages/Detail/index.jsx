@@ -187,7 +187,7 @@ const ProductDetail = ({theme}) => {
           <Description>{product.descripcion}</Description>
           {product.marca && <P>Marca: {product.marca}</P>}
           {product.categoria && <P>Categoría: {product.categoria}</P>}
-          {product.subcategoria && <P>Subcategoría: {product.subcategoria}</P>}
+          {product.subcategoria && <P>Categoría: {product.subcategoria}</P>}
           <Button onClick={addCart} disabled={stock === 0}>
             {stock > 0 ? 'Agregar al carrito' : 'Sin stock'}
           </Button>

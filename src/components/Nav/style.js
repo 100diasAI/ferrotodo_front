@@ -32,7 +32,7 @@ export const NavStyle = styled(NavLink)`
   }
 `;
 
-export const IconStyled = styled.li`
+export const IconStyled = styled.div`
   & svg {
     color: ${({ theme }) => theme.color};
   }
@@ -65,19 +65,24 @@ export const Liauto = styled.li`
 `;
 
 export const Ulauto = styled.ul`
-  position: relative;
+  position: absolute;
   z-index: 4;
-  top: 4px;
+  top: 100%;
+  left: 0;
+  right: 0;
   border: 1px solid grey;
-  border-top-width: 0;
   list-style: none;
   margin-top: 0;
-  max-height: 143px;
+  max-height: 200px;
   overflow-y: auto;
   padding-left: 0;
-  width: calc(400px + 1rem);
-  background: rgba(255, 255, 255, 1);
+  background: ${({ theme }) => theme.cardBackground};
   box-shadow: 0px 0px 5px 0 rgb(31 38 135 / 37%);
+
+  @media (max-width: 768px) {
+    max-height: 150px;
+  }
+
   &::-webkit-scrollbar {
     width: 0.2rem;
     height: 0rem;

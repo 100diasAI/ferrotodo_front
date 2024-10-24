@@ -88,21 +88,15 @@ export const H2 = styled.div`
 
 export const P = styled.p`
   position: relative;
-  /* margin: auto;
+  margin: auto;
   margin-bottom: 1rem;
   font-weight: 600;
-  color: ${(theme) => theme.color};
-  text-align: center; */
+  color: ${(props) => props.theme.color};
+  text-align: center;
+  
   &::after {
-    text-align: center;
-    margin: auto;
-    margin-bottom: 0.5rem;
-    /* margin-top: 0.5rem; */
-    content: "Stock: ${(props) => props.stock}";
-    display: block;
-    font-weight: 400;
-    font-size: 0.85rem;
-    font-style: italic;
+    content: "";
+    display: none;
   }
 `;
 

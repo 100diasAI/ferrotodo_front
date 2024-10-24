@@ -7,22 +7,16 @@ import {
   REMOVE_CART,
   REMOVE_LOCAL_CART,
   SET_LOCAL_CART,
+  SET_LOCAL_STORAGE,
+  GET_LOCAL_STORAGE,
 } from "../actions/actionTypes";
 
-const cart = JSON.parse(localStorage.getItem("cart"))
-const initialState = cart ? {
-  shoppingCart: cart.shoppingCart,
-  order: [],
-  loading:false,
-  error:null,
-  cartRemainingStock: cart.cartRemainingStock,
-} :
-{
+const initialState = {
   shoppingCart: [],
   order: [],
   loading: false,
   error: null,
-  cartRemainingStock:[],
+  cartRemainingStock: [],
 };
 
 export default function cartReducer(state = initialState, action) {
@@ -150,6 +144,22 @@ export default function cartReducer(state = initialState, action) {
       return{
         ...state
       }
+    case SET_LOCAL_STORAGE:
+      return {
+        ...state,
+        shoppingCart: action.payload.shoppingCart,
+        order: action.payload.order,
+        cartRemainingStock: action.payload.cartRemainingStock,
+      };
+
+    case GET_LOCAL_STORAGE:
+      return {
+        ...state,
+        shoppingCart: action.payload.shoppingCart || [],
+        order: action.payload.order || [],
+        cartRemainingStock: action.payload.cartRemainingStock || [],
+      };
+
     default:
       return state;
   }
