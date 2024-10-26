@@ -79,3 +79,14 @@ export const GET_BITACORA_FAIL = "GET_BITACORA_FAIL";
 
 export const SET_LOCAL_STORAGE = 'SET_LOCAL_STORAGE';
 export const GET_LOCAL_STORAGE = 'GET_LOCAL_STORAGE';
+
+export const GET_USER_FAVS = 'GET_USER_FAVS';
+export const ADD_TO_FAVS = 'ADD_TO_FAVS';
+export const REMOVE_FROM_FAVS = 'REMOVE_FROM_FAVS';
+export const GET_FAV_DETAILS = 'GET_FAV_DETAILS';
+
+export const GET_CART = 'GET_CART';
+export const ADD_TO_CART = 'ADD_TO_CART';
+export const UPDATE_CART_ITEM = 'UPDATE_CART_ITEM';
+export const REMOVE_FROM_CART = 'REMOVE_FROM_CART';
+export const CLEAR_CART = 'CLEAR_CART';

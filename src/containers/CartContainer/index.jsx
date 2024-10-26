@@ -1,27 +1,26 @@
-import { useEffect, useState } from "react";
-import { useDispatch, useSelector } from "react-redux";
-import { List, Li , Error , Div , Header , CatList , Main, PriceSection, BOTON, Vaciar, Button, Text} from "./styles";
-import OrderItem from '../../components/Cart/OrderItem';
+import React, { useEffect } from "react";
+import { useSelector, useDispatch } from "react-redux";
+import { getCart, clearCart } from "../../redux/actions/cart";
+import OrderItem from "../../components/Cart/OrderItem";
 import { Link } from "react-router-dom";
-import { deleteCart, setLocalStorage } from "../../redux/actions/cart";
 import { ToastContainer , toast } from "react-toastify";
-export default function ShoppingCart({theme}) {
-  const [cart , shoppingCart,order] = useSelector((store) => [store.cart , store.cart.shoppingCart,store.cart.order]);
-  const [amount,setAmount] = useState(shoppingCart.length)
+import { List, Li , Error , Div , Header , CatList , Main, PriceSection, BOTON, Vaciar, Button, Text} from "./styles";
+
+const ShoppingCart = ({ theme = 'light' }) => {
+  const dispatch = useDispatch();
   const { user: currentUser } = useSelector((state) => state.auth);
-  
-  const dispatch = useDispatch()
+  const cartItems = useSelector((state) => state.cart.items);
 
-  useEffect(()=>{
-    setAmount(shoppingCart.length)
-  },[shoppingCart.length])
-
-  useEffect(()=>{  
-    dispatch(setLocalStorage(cart))
-    return () =>{
-      dispatch(setLocalStorage(cart))
+  useEffect(() => {
+    if (currentUser) {
+      dispatch(getCart(currentUser.id));
     }
-  },[])
+  }, [dispatch, currentUser]);
+
+  if (!cartItems) {
+    return <div>Cargando carrito...</div>;
+  }
+
   const setToast = ()=>{
     toast.error(confirmarVaciado(),{
       toastId:'emptyCart'
@@ -38,10 +37,10 @@ export default function ShoppingCart({theme}) {
     )
   }
   const resetCart = ()=>{
-    dispatch(deleteCart())
+    dispatch(clearCart())
   }
   
-  const price = order.reduce((prev,compra)=> prev+compra.subtotal,0)
+  const price = cartItems.reduce((prev,compra)=> prev+compra.subtotal,0)
   return (
     <Div>
       {
@@ -65,19 +64,19 @@ export default function ShoppingCart({theme}) {
         />)
       }
 
-      { shoppingCart && shoppingCart.length ? (
+      { cartItems && cartItems.length ? (
         <List>
           <Li>
             <Header>
               {
-                  amount >1 ? <p> Finalizar compra de {amount} productos </p> : <p> Finalizar compra </p>
+                  cartItems.length >1 ? <p> Finalizar compra de {cartItems.length} productos </p> : <p> Finalizar compra </p>
               }
             </Header>
           </Li>
           <Li>
             <Main>
               {
-              shoppingCart.map(item=><OrderItem key={`${item.id}+${item.talle}`} id={item.id} item={item}/>)
+              cartItems.map(item=><OrderItem key={`${item.id}+${item.talle}`} id={item.id} item={item}/>)
               }
             </Main>            
           </Li>
@@ -107,3 +106,5 @@ export default function ShoppingCart({theme}) {
     </Div>
   );
 }
+
+export default ShoppingCart;

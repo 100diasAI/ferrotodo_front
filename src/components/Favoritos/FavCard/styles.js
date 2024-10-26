@@ -91,3 +91,9 @@ export const Price = styled.h4`
   font-weight: bold;
   color: #4a4a4a;
 `;
+
+export const StockInfo = styled.p`
+  font-size: 14px;
+  color: #666;
+  margin-top: 5px;
+`;

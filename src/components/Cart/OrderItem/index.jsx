@@ -1,108 +1,72 @@
-import React, { useEffect, useState } from "react";
+import React from "react";
 import { useDispatch, useSelector } from "react-redux";
-import axios from "axios";
 import { BsTrashFill } from "react-icons/bs";
 import {
-  addOrder,
-  modifyItemStock,
-  removeOrder,
-  resetItemStock,
-  setLocalStorage,
+  updateCartItem,
+  removeFromCart,
 } from "../../../redux/actions/cart";
-import { List, Img, Li , Text , Amount, Button , Div , CloseButton, PCant, SPAN, H3, LinkTo} from "./styles";
+import { List, Img, Li, Text, Amount, Button, Div, CloseButton, PCant, SPAN, H3, LinkTo } from "./styles";
 import { toast } from "react-toastify";
 import ToastMsg from "../../Toast";
 
-export default function OrderItem({ id, item }) {
+export default function OrderItem({ item }) {
   const dispatch = useDispatch();
-  const [productOrder, setOrder] = useState({
-    id: item.id,
-    nombre: item.nombre,
-    precio: item.precio,
-    cantidad: item.cantidad,
-    subtotal: (item.precio * item.cantidad)
-  });
-  const [cart, currentStock] = useSelector(state => [state.cart, state.cart.cartRemainingStock]);
-  const [stock, setStock] = useState(0);
   const { user: currentUser } = useSelector((state) => state.auth);
 
-  const getStock = async () => {
-    const product = await axios.get(`http://localhost:3001/product/${item.id}`);
-    setStock(product.data.stock);
-  };
-
-  useEffect(() => {
-    dispatch(addOrder(productOrder));
-    getStock();
-    return () => {
-      if (currentUser) {
-        dispatch(setLocalStorage(cart, currentUser.id));
-      }
-    };
-  }, []);
-
-  useEffect(() => {
-    dispatch(addOrder(productOrder));
-    if (currentUser) {
-      dispatch(setLocalStorage(cart, currentUser.id));
-    }
-  }, [productOrder]);
-
   const incAmount = () => {
-    if (productOrder.cantidad < stock) {
-      dispatch(modifyItemStock(id));
-      setOrder({
-        ...productOrder,
-        cantidad: productOrder.cantidad + 1,
-        subtotal: item.precio * (productOrder.cantidad + 1)
-      });
+    if (item.quantity < item.producto.stock) {
+      dispatch(updateCartItem(currentUser.id, item.productId, item.quantity + 1));
     }
   };
+
   const decAmount = () => {
-    if (productOrder.cantidad > 1) {
-      dispatch(modifyItemStock(id, -1));
-      setOrder({
-        ...productOrder,
-        cantidad: productOrder.cantidad - 1,
-        subtotal: item.precio * (productOrder.cantidad - 1)
-      });
+    if (item.quantity > 1) {
+      dispatch(updateCartItem(currentUser.id, item.productId, item.quantity - 1));
     }
   };
+
   const removeItem = () => {
-    toast.error(<ToastMsg tipo={"cart"} name={item.nombre} productId={id}/>, {
-      toastId: `delete${id}`
-    });
+    toast.error(
+      <ToastMsg
+        tipo={"cart"}
+        name={item.producto.nombre}
+        userId={currentUser.id}
+        productId={item.productId}
+      />,
+      {
+        toastId: `delete${item.id}`,
+      }
+    );
   };
+
   return (
-    <Div key={id}>
+    <Div key={item.id}>
       <CloseButton onClick={removeItem}><BsTrashFill/></CloseButton>
       <List>
-        <Li key={`${id}img`}>
-          <LinkTo to={`/detail/${id}`}>
-            <Img src={`${item.imagen}`} alt={`Imagen de ${item.nombre}`} />
+        <Li key={`${item.id}img`}>
+          <LinkTo to={`/detail/${item.productId}`}>
+            <Img src={item.producto.urlimagen} alt={`Imagen de ${item.producto.nombre}`} />
           </LinkTo>    
         </Li>
-        <Li key={`${id}text`}>
+        <Li key={`${item.id}text`}>
           <Text>
-            <H3>{item.nombre}</H3>
-            <h5>{item.descripcion}</h5>
+            <H3>{item.producto.nombre}</H3>
+            <h5>{item.producto.descripcion}</h5>
           </Text>
         </Li>
-        <Li key={`${id}price`}>
-          <h3>${Intl.NumberFormat("es-BO").format(item.precio)}</h3>
+        <Li key={`${item.id}price`}>
+          <h3>${Intl.NumberFormat("es-BO").format(item.producto.precio)}</h3>
         </Li>
-        <Li key={`${id}amount`}>
+        <Li key={`${item.id}amount`}>
           <Amount>
             <Button onClick={decAmount}>-</Button>
-            <PCant>{productOrder.cantidad}</PCant>
+            <PCant>{item.quantity}</PCant>
             <Button onClick={incAmount}>+</Button>            
           </Amount>
-            {     
-              stock ? stock<=productOrder.cantidad ? (<SPAN>Stock máximo</SPAN>) : null : null
-            }
+          {item.quantity >= item.producto.stock && <SPAN>Stock máximo</SPAN>}
         </Li>
-        <Li key={`${id}subtotal`}>
-          <h3>${Intl.NumberFormat("es-BO").format(productOrder.subtotal)}</h3>
+        <Li key={`${item.id}subtotal`}>
+          <h3>${Intl.NumberFormat("es-BO").format(item.producto.precio * item.quantity)}</h3>
         </Li>
       </List>
     </Div>

@@ -10,14 +10,14 @@ import {
   SET_LOCAL_CART,
   SET_LOCAL_STORAGE,
   GET_LOCAL_STORAGE,
+  GET_CART,
+  ADD_TO_CART,
+  UPDATE_CART_ITEM,
+  REMOVE_FROM_CART,
+  CLEAR_CART,
 } from "./actionTypes";
+import { toast } from "react-toastify";
 
-export const addToCart = (order) => {
-  return {
-    type: ADD_CART,
-    payload: order,
-  };
-};
 
 
 export const modifyCart = (details) => {
@@ -129,3 +129,53 @@ export const resetItemStock = (id,talle)=>{
 
   }
 }
+
+const API_URL = 'http://localhost:3001';
+
+export const getCart = (userId) => async (dispatch) => {
+  try {
+    const response = await axios.get(`${API_URL}/cart/${userId}`);
+    dispatch({ type: 'GET_CART', payload: response.data });
+  } catch (error) {
+    console.error('Error fetching cart:', error);
+  }
+};
+
+export const addToCart = (userId, productId, quantity) => async (dispatch) => {
+  try {
+    const response = await axios.post(`${API_URL}/cart`, { userId, productId, quantity });
+    dispatch({ type: ADD_TO_CART, payload: response.data });
+    // Después de añadir al carrito, obtenemos el carrito actualizado
+    dispatch(getCart(userId));
+  } catch (error) {
+    console.error('Error adding to cart:', error);
+    toast.error("Error al añadir el producto al carrito");
+  }
+};
+
+export const updateCartItem = (userId, productId, quantity) => async (dispatch) => {
+  try {
+    const response = await axios.put(`${API_URL}/cart/${userId}/${productId}`, { quantity });
+    dispatch({ type: 'UPDATE_CART_ITEM', payload: response.data });
+  } catch (error) {
+    console.error('Error updating cart item:', error);
+  }
+};
+
+export const removeFromCart = (userId, productId) => async (dispatch) => {
+  try {
+    await axios.delete(`${API_URL}/cart/${userId}/${productId}`);
+    dispatch({ type: 'REMOVE_FROM_CART', payload: { userId, productId } });
+  } catch (error) {
+    console.error('Error removing from cart:', error);
+  }
+};
+
+export const clearCart = (userId) => async (dispatch) => {
+  try {
+    await axios.delete(`${API_URL}/cart/${userId}`);
+    dispatch({ type: 'CLEAR_CART' });
+  } catch (error) {
+    console.error('Error clearing cart:', error);
+  }
+};

@@ -13,39 +13,34 @@ import {
 
 export default function FavCard({ productId }) {
   const [isLoading, setIsLoading] = useState(true);
-  const favProducts = useSelector((state) => state.favorites.favDetail);
-  const [data, setData] = useState({});
+  const favProduct = useSelector((state) => state.favorites.favDetail.find(p => p.id === productId));
   const dispatch = useDispatch();
 
   useEffect(() => {
-    dispatch(getFavProducts(productId));
-  }, [dispatch, productId]);
-
-  useEffect(() => {
-    if (favProducts) {
-      const product = favProducts.find((p) => p.id === productId);
-      if (product) {
-        setData(product);
-        setIsLoading(false);
-      }
+    if (productId && !favProduct) {
+      dispatch(getFavProducts(productId)).then(() => setIsLoading(false));
+    } else if (favProduct) {
+      setIsLoading(false);
     }
-  }, [favProducts, productId]);
+  }, [dispatch, productId, favProduct]);
 
   if (isLoading) return <Loading />;
 
+  if (!favProduct) return <div>Cargando detalles del producto...</div>;
+
   return (
     <CardContainer>
-      <FavIcon productId={productId} productName={data.nombre} />
+      <FavIcon productId={productId} productName={favProduct.nombre} />
       <ImgContainer>
         <LinkTo to={`/detail/${productId}`}>
-          <img src={data.imagen} alt={data.nombre} />
+          <img src={favProduct.urlimagen} alt={favProduct.nombre} />
         </LinkTo>
       </ImgContainer>
       <Text>
-        <h3>{data.nombre}</h3>
-        <p>{data.descripcion}</p>
+        <h3>{favProduct.nombre}</h3>
+        <p>{favProduct.descripcion}</p>
       </Text>
-      <Price>Precio: ${data.precio}</Price>
+      <Price>Precio: ${favProduct.precio}</Price>
     </CardContainer>
   );
 }

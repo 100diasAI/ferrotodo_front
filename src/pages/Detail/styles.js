@@ -1,171 +1,87 @@
 import styled from "styled-components";
 
 export const Main = styled.main`
-  padding-top: 120px;
   padding: 1rem;
-  min-width: 375px;
-  /* max-width: 1440px; */
+  max-width: 1200px;
   margin: 0 auto;
   font-size: 16px;
-  @media (min-width: 850px) {
-    margin: 0 auto;
-  }
 `;
 
 export const Div = styled.div`
-  // background-color: grey;
-  border-style: none;
-  border-radius: 1rem;
-  -webkit-box-shadow: ${({ theme }) => theme.shadowColor};
-  -moz-box-shadow: ${({ theme }) => theme.shadowColor};
-  box-shadow: ${({ theme }) => theme.shadowColor};
-  display: grid;
-  grid-template-columns: 1fr 1fr;
-  justify-items: center;
+  display: flex;
+  flex-direction: column;
   align-items: center;
-  grid-gap: 20px;
-  width: 70%;
-  max-width: 1440px;
-  /* height: 90vh; */
-  margin: auto;
-  @media (max-width: 650px) {
-    grid-template-columns: 1fr;
-  }
+  gap: 2rem;
+  padding: 2rem;
+  border-radius: 1rem;
+  box-shadow: ${({ theme }) => theme.shadowColor};
 
-  @media (min-width: 1250px) {
-    grid-gap: 100px;
+  @media (min-width: 768px) {
+    flex-direction: row;
+    align-items: flex-start;
   }
 `;
 
 export const ImageContainer = styled.div`
-  margin: 50px;
-  /* @media (min-width: 1250px) {
-    justify-self: end;
-  } */
-`;
-export const FavContainer = styled.div`
-  position: absolute;
-`;
-export const FavIncluye = styled.div`
   position: relative;
-  top: 10px;
-  left: 10px;
+  width: 100%;
+  max-width: 400px;
 `;
 
 export const Image = styled.img`
-  /* max-width: 166px; */
-  box-shadow: ${({ theme }) => theme.shadowColor};
-  max-width: 300px;
-  @media (max-width: 870px) {
-    width: 185px;
-  }
+  width: 100%;
+  height: auto;
+  border-radius: 0.5rem;
 `;
 
 export const InfoContainer = styled.div`
-  /* background-color: blue; */
-  padding: 1rem;
-  /* max-width: 260px; */
+  width: 100%;
+  max-width: 400px;
   display: flex;
   flex-direction: column;
-  margin: 1rem;
-  border-radius: 1rem;
-  -webkit-box-shadow: ${({ theme }) => theme.shadowColor};
-  -moz-box-shadow: ${({ theme }) => theme.shadowColor};
-  box-shadow: ${({ theme }) => theme.shadowColor};
-  @media (min-width: 1250px) {
-    justify-self: start;
-  }
+  gap: 1rem;
 `;
 
-export const H2 = styled.div`
-  color: ${(props) => props.theme.color};
-  font-size: 1.3rem;
+export const H2 = styled.h2`
+  font-size: 1.5rem;
   font-weight: 600;
-  margin: auto;
-  margin-bottom: 1rem;
-  text-align: center;
+  margin: 0;
 `;
 
-export const P = styled.p`
-  position: relative;
-  margin: auto;
-  margin-bottom: 1rem;
+export const Price = styled.p`
+  font-size: 1.25rem;
   font-weight: 600;
-  color: ${(props) => props.theme.color};
-  text-align: center;
-  
-  &::after {
-    content: "";
-    display: none;
-  }
-`;
-
-export const Stars = styled.div`
-  display: "flex";
-  flex-direction: "row";
-  margin-left: 2rem;
-  margin-bottom: 5px;
-`;
-
-export const SizeInfo = styled.ul`
-  display: flex;
-  justify-content: space-between;
-  margin-bottom: 1rem;
-  flex-wrap: wrap;
-  list-style: none;
-`;
-
-export const Size = styled.li`
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  margin: auto;
-  /* margin-right: 1rem; */
-  width: 40px;
-  height: 40px;
-  border: 1px solid ${(props) => props.theme.colorTextSec};
-  border-radius: 50%;
-  cursor: pointer;
-  &:hover {
-    border: 1px solid ${(props) => props.theme.colorTextPri};
-  }
+  margin: 0;
 `;
 
 export const Description = styled.p`
-  margin-bottom: 1rem;
-  font-weight: 400;
+  margin: 0;
 `;
 
 export const Button = styled.button`
-  align-self: center;
-  margin-top: 15px;
-  margin-bottom: 15px;
-  width: 100%;
-  padding: 10px;
-  background-color:  ${({ theme }) => theme.buttonCTA};
+  padding: 0.5rem 1rem;
+  background-color: ${({ theme }) => theme.buttonCTA};
+  color: white;
   border: none;
-  border-radius: 5px;
-  color: #fff;
-  font-size: 15px;
-  font-weight: 500;
+  border-radius: 0.25rem;
   cursor: pointer;
-  transition: all .2s ease;
+  font-size: 1rem;
+  transition: background-color 0.2s;
+
   &:hover {
-    background-color: whitesmoke;
-    color: black;
-    cursor: pointer;
-    font-weight: bold;
-    box-shadow: ${({ theme }) => theme.shadowButtonCTA};
+    background-color: ${({ theme }) => theme.buttonCTAHover};
+  }
+
+  &:disabled {
+    background-color: ${({ theme }) => theme.buttonDisabled};
+    cursor: not-allowed;
   }
 `;
 
 export const ResenasContainer = styled.div`
-  margin: 1rem;
-  display: flex;
-  flex-direction: column;
-  margin: 2rem;
-  margin-bottom: 5rem;
-  max-width: 70%;
+  width: 90%;
+  max-width: 800px;
+  margin: 2rem auto;
 `;
 
 export const DivRese = styled.div`
@@ -239,11 +155,13 @@ export const Review = styled.div`
   }
 `;
 
-export const Price = styled.p`
-  position: relative;
-  margin: auto;
-  margin-bottom: 1rem;
-  font-weight: 600;
-  color: ${(props) => props.theme.color};
-  text-align: center;
+export const FavContainer = styled.div`
+  position: absolute;
+  top: 10px;
+  right: 10px;
+  z-index: 1;
+`;
+
+export const FavIncluye = styled.div`
+  // Estilos para FavIncluye si es necesario
 `;

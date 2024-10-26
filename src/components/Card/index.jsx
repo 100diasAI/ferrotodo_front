@@ -73,30 +73,21 @@ const Card = ({ id, nombre, urlimagen, descripcion, precio, stock }) => {
   };
 
   const handleAddCart = async () => {
-    let order = {
-      id,
-      nombre,
-      descripcion,
-      urlimagen,
-      precio,
-      cantidad: 1,
-    };
-    const check = await checkStock();
-    if (check) {
-      let index = currentStock.findIndex((p) => p.id === id);
-      if (index !== -1) {
-        if (currentStock[index].stock - 1 >= 0) {
-          dispatch(modifyItemStock(id));
-          dispatch(addToCart(order));
-          setOpen((isOpen) => !isOpen);
-        } else {
-          handleStockError();
-        }
-      } else {
-        dispatch(addToCart(order));
-        dispatch(setItemStock(id));
-        setOpen((isOpen) => !isOpen);
+    if (!currentUser) {
+      toast.error("Por favor, inicia sesión para añadir productos al carrito");
+      return;
+    }
+
+    if (isInStock) {
+      try {
+        await dispatch(addToCart(currentUser.id, id, 1));
+        toast.success(`${nombre} añadido al carrito`);
+      } catch (error) {
+        console.error("Error adding to cart:", error);
+        toast.error("Error al añadir el producto al carrito");
       }
+    } else {
+      toast.error(`No hay stock de ${nombre}`);
     }
   };
 
