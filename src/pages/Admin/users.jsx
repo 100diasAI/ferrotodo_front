@@ -1,97 +1,142 @@
-import DataTable , {createTheme} from 'react-data-table-component';
+import DataTable from 'react-data-table-component';
 import { getUsuarios, updateUser, filterUsers } from '../../redux/actions/checkout';
 import { useDispatch, useSelector } from "react-redux";
 import { useEffect, useState } from 'react';
 import './products.css'
 import { toast } from 'react-toastify';
-import { AiTwotoneAppstore } from 'react-icons/ai';
 import { Button, Text } from './styles';
 
 export default function Users() {
   const dispatch = useDispatch();
-  const [search, setSearch] = useState("")
-  // const [datos, setDatos] = useState("")
+  const [search, setSearch] = useState("");
+  const [refreshKey, setRefreshKey] = useState(0);
+  
+  const [localUserStates, setLocalUserStates] = useState(() => {
+    const savedStates = localStorage.getItem('userStates');
+    return savedStates ? JSON.parse(savedStates) : {};
+  });
 
-  // const usuarios = useSelector((state) => state.checkout.usuarios);
   const usuariosFiltrados = useSelector((state) => state.checkout.usuariosFiltrados);
 
   useEffect(() => {
-    dispatch(getUsuarios());
-    console.log("me rompo")
-  }, [])
+    localStorage.setItem('userStates', JSON.stringify(localUserStates));
+  }, [localUserStates]);
 
-  // useEffect(() => {
-  //   console.log("me rompo todo")
-  // }, [usuariosFiltrados])
-  
-  // var usuariosFiltrados = [useSelector((state) => state.checkout.usuarios);]
-  // console.log(usuarios)
-  const changeAdmin = ({nombre , apellido , id , isAdmin})=>{
-    const adminSet = ()=>{
-      // console.log(row)
-      dispatch(updateUser({id,isAdmin: !isAdmin}))
-      setTimeout(()=>{
-        dispatch(getUsuarios())
-      },1000)
+  useEffect(() => {
+    dispatch(getUsuarios());
+  }, [dispatch]);
+
+  useEffect(() => {
+    if (usuariosFiltrados.length > 0) {
+      const newStates = {};
+      usuariosFiltrados.forEach(user => {
+        newStates[user.id] = {
+          isAdmin: user.isAdmin,
+          bloqueado: user.bloqueado
+        };
+      });
+      setLocalUserStates(prevStates => ({
+        ...newStates,
+        ...prevStates
+      }));
     }
-    return(
-      isAdmin ? (
+  }, [usuariosFiltrados]);
+
+  const getUserState = (userId, field, defaultValue) => {
+    return localUserStates[userId]?.[field] ?? defaultValue;
+  };
+
+  const changeAdmin = ({nombre, apellido, id, isAdmin}) => {
+    const adminSet = async () => {
+      try {
+        const newAdminState = !getUserState(id, 'isAdmin', isAdmin);
+        setLocalUserStates(prev => ({
+          ...prev,
+          [id]: { ...prev[id], isAdmin: newAdminState }
+        }));
+
+        await dispatch(updateUser({id, isAdmin: newAdminState}));
+        toast.success(`${newAdminState ? 'Otorgados' : 'Revocados'} permisos de administrador`);
+        toast.dismiss(`${id}admin${isAdmin}`);
+      } catch (error) {
+        setLocalUserStates(prev => ({
+          ...prev,
+          [id]: { ...prev[id], isAdmin: isAdmin }
+        }));
+        toast.error('Error al actualizar permisos');
+      }
+    }
+
+    const currentIsAdmin = getUserState(id, 'isAdmin', isAdmin);
+    return (
       <div>
-        <Text>Está revocando los permisos de administrador al usuario {nombre} {apellido}</Text>
+        <Text>
+          {currentIsAdmin 
+            ? `¿Revocar permisos de administrador a ${nombre} ${apellido}?`
+            : `¿Otorgar permisos de administrador a ${nombre} ${apellido}?`}
+        </Text>
         <Button onClick={adminSet}>Confirmar</Button>
-      </div>):(<div>
-        <Text>Está otorgando permisos de administrador al usuario {nombre} {apellido}</Text>
-        <Button onClick={adminSet}>Confirmar</Button>
-      </div>)
+      </div>
     )
   }
-  const blockUser = ({id, bloqueado , nombre , apellido})=>{
-    const setBlock = ()=>{
-      dispatch(updateUser({id,bloqueado: !bloqueado}))
-      setTimeout(()=>{
-        dispatch(getUsuarios())
-      },1000)
+
+  const blockUser = ({id, bloqueado, nombre, apellido}) => {
+    const setBlock = async () => {
+      try {
+        const newBlockState = !getUserState(id, 'bloqueado', bloqueado);
+        setLocalUserStates(prev => ({
+          ...prev,
+          [id]: { ...prev[id], bloqueado: newBlockState }
+        }));
+
+        await dispatch(updateUser({id, bloqueado: newBlockState}));
+        toast.success(`Usuario ${newBlockState ? 'bloqueado' : 'desbloqueado'} exitosamente`);
+        toast.dismiss(`${id}block${bloqueado}`);
+      } catch (error) {
+        setLocalUserStates(prev => ({
+          ...prev,
+          [id]: { ...prev[id], bloqueado: bloqueado }
+        }));
+        toast.error('Error al actualizar estado de bloqueo');
+      }
     }
-    return(
-      !bloqueado ? (
+
+    const currentBloqueado = getUserState(id, 'bloqueado', bloqueado);
+    return (
       <div>
-        <Text>¿Bloquear al usuario {nombre} {apellido}?</Text>
+        <Text>
+          {currentBloqueado 
+            ? `¿Desbloquear al usuario ${nombre} ${apellido}?`
+            : `¿Bloquear al usuario ${nombre} ${apellido}?`}
+        </Text>
         <Button onClick={setBlock}>Confirmar</Button>
-      </div>):(<div>
-        <Text>¿Desbloquear al usuario {nombre} {apellido}?</Text>
-        <Button onClick={setBlock}>Confirmar</Button>
-      </div>)
+      </div>
     )
   }
+
   function alerta2(row) {
-    toast.info(changeAdmin(row),{
+    toast.info(changeAdmin(row), {
       toastId: `${row.id}admin${row.isAdmin}`
-    })
-    // dispatch(getUsuarios())
+    });
   }
 
   function alerta1(row) {
-    toast.info(blockUser(row),{
+    toast.info(blockUser(row), {
       toastId: `${row.id}block${row.bloqueado}`
-    })
-
+    });
   }
 
   function handleInputChange(e) {
-    // e.preventDefault()
     setSearch(
       e.target.value
     )
   }
 
   function handleSubmit(e) {
-    // e.preventDefault()
-    // setDatos({ usuariosFiltrados: usuarios.filter(el => el.nombre.toLowerCase().includes(search.nombre.toLowerCase())) })
     dispatch(filterUsers(search))
   }
 
   function RecargarSubmit(e) {
-    // e.preventDefault()
     dispatch(getUsuarios("Reset"))
     setSearch("")
   }
@@ -119,49 +164,57 @@ export default function Users() {
     },
     {
       name: 'Admin',
-      selector: row => row.isAdmin === true ? 'SI' : 'NO',
-      sortable: true
+      selector: row => getUserState(row.id, 'isAdmin', row.isAdmin) ? 'SI' : 'NO',
+      sortable: true,
+      cell: row => (
+        <span style={{ 
+          color: getUserState(row.id, 'isAdmin', row.isAdmin) ? 'green' : 'red' 
+        }}>
+          {getUserState(row.id, 'isAdmin', row.isAdmin) ? 'SI' : 'NO'}
+        </span>
+      )
     },
     {
       name: 'Bloqueado',
-      selector: row => row.bloqueado === true ? 'SI' : 'NO',
-      sortable: true
+      selector: row => getUserState(row.id, 'bloqueado', row.bloqueado) ? 'SI' : 'NO',
+      sortable: true,
+      cell: row => (
+        <span style={{ 
+          color: getUserState(row.id, 'bloqueado', row.bloqueado) ? 'red' : 'green' 
+        }}>
+          {getUserState(row.id, 'bloqueado', row.bloqueado) ? 'SI' : 'NO'}
+        </span>
+      )
     },
     {
       name: 'Admin',
-      selector: row => <button className='user' onClick={() => alerta2(row)}>Editar</button>,
-      // row.isAdmin == true ? row.isAdmin = false : row.isAdmin = true
-      sortable: true
+      selector: row => (
+        <button 
+          className='user' 
+          onClick={() => alerta2(row)}
+          style={{ 
+            backgroundColor: getUserState(row.id, 'isAdmin', row.isAdmin) ? '#ff4444' : '#44aa44' 
+          }}
+        >
+          {getUserState(row.id, 'isAdmin', row.isAdmin) ? 'Revocar Admin' : 'Hacer Admin'}
+        </button>
+      )
     },
     {
       name: 'Bloqueado',
-      selector: row => <button className='user' onClick={() => alerta1(row)}>Editar</button>,
-      // row.isAdmin == true ? row.isAdmin = false : row.isAdmin = true
-      sortable: true
-    },
+      selector: row => (
+        <button 
+          className='user' 
+          onClick={() => alerta1(row)}
+          style={{ 
+            backgroundColor: getUserState(row.id, 'bloqueado', row.bloqueado) ? '#44aa44' : '#ff4444' 
+          }}
+        >
+          {getUserState(row.id, 'bloqueado', row.bloqueado) ? 'Desbloquear' : 'Bloquear'}
+        </button>
+      )
+    }
   ]
-
-  // createTheme('custom', {
-  //   text: {
-  //     primary: '#268bd2',
-  //     secondary: '#2aa198',
-  //   },
-  //   background: {
-  //     default: '#1B1B1B',
-  //   },
-  //   context: {
-  //     background: '#cb4b16',
-  //     text: '#FFFFFF',
-  //   },
-  //   divider: {
-  //     default: '#073642',
-  //   },
-  //   action: {
-  //     button: 'rgba(0,0,0,.54)',
-  //     hover: 'rgba(0,0,0,.08)',
-  //     disabled: 'rgba(0,0,0,.12)',
-  //   },
-  // }, 'dark');
 
   const paginacionOpciones = {
     rowsPerPageText: 'Filas por pagina',
@@ -172,7 +225,6 @@ export default function Users() {
 
   return (
     <div>
-      
       <div className='barraBusqueda'>
         <input
           type='text'
@@ -193,7 +245,6 @@ export default function Users() {
       <DataTable
         columns={columnas}
         data={usuariosFiltrados}
-        // theme="custom" //habilitar esta linea y descomentar createTheme()
         title="Usuarios"
         pagination
         paginationComponentOptions={paginacionOpciones}

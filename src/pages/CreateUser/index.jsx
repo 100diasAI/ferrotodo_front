@@ -103,7 +103,7 @@ export default function NewUser() {
     if (!Object.keys(errors).length && Object.keys(newUser).length) {
       try {
         const { data } = await axios.post(
-          "http://localhost:3001/user/register",
+          "https://ferretodo.onrender.com/user/register",
           {
             nombre: newUser.name,
             apellido: newUser.lastname,
@@ -139,7 +139,7 @@ export default function NewUser() {
 
     try {
       const { data } = await axios.post(
-        "http://localhost:3001/user/register-google",
+        "https://ferretodo.onrender.com/user/register-google",
         {
           user: userObject,
         }, { withCredentials: true }

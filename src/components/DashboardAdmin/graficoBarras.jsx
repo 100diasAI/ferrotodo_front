@@ -1,31 +1,12 @@
 import { getUsuarios } from '../../redux/actions/checkout';
 import { useDispatch, useSelector } from "react-redux";
 import { useEffect } from 'react';
-import './graficoLineas.css'
-import {
-    Chart as ChartJS,
-    CategoryScale,
-    LinearScale,
-    PointElement,
-    BarElement,
-    Title,
-    Tooltip,
-    Legend,
-    Filler,
-} from "chart.js";
+import './graficoBarras.css'
+import { Chart, registerables } from 'chart.js';
 import { Bar } from "react-chartjs-2";
 import { GraficosBarras } from './styles';
 
-ChartJS.register(
-    CategoryScale,
-    LinearScale,
-    PointElement,
-    BarElement,
-    Title,
-    Tooltip,
-    Legend,
-    Filler
-);
+Chart.register(...registerables);
 
 export default function BarChart() {
     const dispatch = useDispatch();

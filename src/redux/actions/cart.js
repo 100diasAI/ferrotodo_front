@@ -92,7 +92,7 @@ export const deleteCart = () => {
 }
 
 export const setItemStock = (id, talle)=> async dispatch =>{
-  const product = await axios.get(`http://localhost:3001/product/${id}`)
+  const product = await axios.get(`https://ferretodo.onrender.com/product/${id}`)
   let stock = 0;
    if (talle === 'Sin talle'){
     stock = product.data.talles[0].producto_talle.stock  
@@ -130,7 +130,7 @@ export const resetItemStock = (id,talle)=>{
   }
 }
 
-const API_URL = 'http://localhost:3001';
+const API_URL = 'https://ferretodo.onrender.com';
 
 export const getCart = (userId) => async (dispatch) => {
   try {

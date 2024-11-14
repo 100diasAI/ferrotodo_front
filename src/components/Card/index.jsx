@@ -54,7 +54,7 @@ const Card = ({ id, nombre, urlimagen, descripcion, precio, stock }) => {
 
   const checkStock = async (cantidad = 1) => {
     try {
-      const product = await axios.get(`http://localhost:3001/product/${id}`);
+      const product = await axios.get(`https://ferretodo.onrender.com/product/${id}`);
       if (product.data.stock >= cantidad) return true;
       handleStockError();
       return false;

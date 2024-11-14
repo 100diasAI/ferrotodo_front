@@ -51,7 +51,7 @@ export default function NavBar({ products = [], theme }) {
 
   useEffect(() => {
     if (!result) {
-      dispatch(logout());
+      //dispatch(logout());
     }
   }, [result]);
 

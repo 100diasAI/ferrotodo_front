@@ -22,7 +22,7 @@ function Confirmacion() {
 
   const pagina = async () => {
     try {
-      const url = `http://localhost:3001/user/confirmar/${id}`;
+      const url = `https://ferretodo.onrender.com/user/confirmar/${id}`;
       const result = await fetch(url, {
         credentials: "include",
       });

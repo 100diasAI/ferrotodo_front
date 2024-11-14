@@ -80,9 +80,9 @@ const ShoppingCart = ({ theme = 'light' }) => {
               }
             </Main>            
           </Li>
-          <Li>
+          {/* <Li>
             <PriceSection>Precio final: ${Intl.NumberFormat("es-BO").format(price)}</PriceSection>
-          </Li>
+          </Li> */}
           <Li>
               <PriceSection>
               {

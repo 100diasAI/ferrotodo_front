@@ -13,7 +13,7 @@ import {
   GET_ALL_SUCURSALES,
 } from "./actionTypes";
 
-const URL_SERVER = "http://localhost:3001";
+const URL_SERVER = "https://ferretodo.onrender.com";
 
 // Handle HTTP errors since fetch won't.
 export const checkout = (checkoutData) => async (dispatch) => {
@@ -120,17 +120,30 @@ export function filterPedidos(payload) {
 }
 }
 
-export function updateUser(payload) {
-  return async function () {
+export const updateUser = (userData) => {
+  return async (dispatch) => {
     try {
-      console.log(payload)
-      const response = await axios.put(`${URL_SERVER}/admin/usuario`, payload, { withCredentials: true });
-      return response;
-    } catch (e) {
-      console.log(e);
+      const response = await axios.put(`${URL_SERVER}/admin/usuario`, userData);
+      
+      // Dispatch para actualizar el usuario en el estado
+      dispatch({
+        type: 'UPDATE_USER_SUCCESS',
+        payload: {
+          id: userData.id,
+          changes: userData
+        }
+      });
+      
+      // Obtener la lista actualizada de usuarios
+      dispatch(getUsuarios());
+      
+      return response.data;
+    } catch (error) {
+      console.error('Error updating user:', error);
+      throw error;
     }
   };
-}
+};
 
 export function updateEstadoPedido(payload) {
   return async function () {

@@ -5,7 +5,7 @@ import {
   GET_PRODUCTS_BEGIN,
 } from "./actionTypes";
 
-const URL = "http://localhost:3001/pedidos/user/";
+const URL = "https://ferretodo.onrender.com/pedidos/user/";
 
 export const getPedidos = (id) => {
   return async (dispatch) => {

@@ -2,30 +2,11 @@ import { getPedidos } from '../../redux/actions/checkout';
 import { useDispatch, useSelector } from "react-redux";
 import { useEffect, useState } from 'react';
 import './graficoBarras.css'
-import {
-    Chart as ChartJS,
-    CategoryScale,
-    LinearScale,
-    PointElement,
-    LineElement,
-    Title,
-    Tooltip,
-    Legend,
-    Filler,
-} from "chart.js";
+import { Chart, registerables } from 'chart.js';
 import { Line } from "react-chartjs-2";
 import { GraficoLineas } from './styles';
 
-ChartJS.register(
-    CategoryScale,
-    LinearScale,
-    PointElement,
-    LineElement,
-    Title,
-    Tooltip,
-    Legend,
-    Filler
-);
+Chart.register(...registerables);
 
 export default function LineChart() {
     const dispatch = useDispatch();

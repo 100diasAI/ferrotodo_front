@@ -62,7 +62,16 @@ export default function Form({ submit }) {
     },[dispatch])
 
     function handleChange(e) {
-        if(e.target.name !== "imagen"){
+        if(e.target.name === "imagen"){
+            const file = e.target.files[0];
+            console.log("Archivo en handleChange:", file); // Debug
+            if (file) {
+                setForm(prevForm => ({
+                    ...prevForm,
+                    imagen: file
+                }));
+            }
+        } else {
             let value = e.target.value;
             if(e.target.name === "subcategoria") {
                 const idcategoria = asignarIdCategoria(value);
@@ -77,11 +86,6 @@ export default function Form({ submit }) {
                     [e.target.name]: value
                 }));
             }
-        } else {
-            setForm(prevForm => ({
-                ...prevForm,
-                [e.target.name]: e.target.files[0]
-            }));
         }
         setErrors(validate({
             ...form,
@@ -90,45 +94,89 @@ export default function Form({ submit }) {
     }
 
     function asignarIdCategoria(subcategoria) {
-        switch(subcategoria) {
-            case "Ferreteria":
-                return "301";
-            case "Organizacion y Almacenaje":
-                return "302";
-            // Añade más casos según sea necesario
-            default:
-                return "";
-        }
+        const categorias = {
+            "Herramientas Manuales": "HM001",
+            "Herramientas Eléctricas": "HE001",
+            "Herramientas de Medición": "HME001",
+            "Herramientas de Jardín": "HJ001"
+        };
+        return categorias[subcategoria] || "HM001";
+    }
+
+    // Función para generar un ID simple
+    function generateSimpleId() {
+        return Date.now().toString(); // Genera un ID basado en timestamp
     }
 
     async function handleSubmit(e) {
         e.preventDefault();
-
-        const formDataImg = new FormData();
-        formDataImg.append("file", form.imagen);
-        formDataImg.append("upload_preset", "wsnlejcx");
         try {
-            const imgUpload = await axios.post('https://api.cloudinary.com/v1_1/daneopbmn/image/upload', formDataImg)
-
-            const idcategoria = asignarIdCategoria(form.subcategoria);
-
-            const producto = {
-                id: uuidv4().toString(),
-                nombre: form.nombre,
-                descripcion: form.descripcion,
-                categoria: "Herramientas",
-                subcategoria: form.subcategoria,
-                idcategoria: idcategoria,
-                marca: form.marca,
-                precio: parseFloat(form.precio),
-                stock: parseInt(form.stock),
-                medidas: form.medidas,
-                urlimagen: imgUpload.data.url
-            }
+            console.log("Iniciando subida de imagen...");
             
-            await submit(producto);
+            const formData = new FormData();
+            formData.append('imagen', form.imagen);
+            
+            const uploadResponse = await fetch('https://ferretodo.onrender.com/upload', {
+                method: 'POST',
+                body: formData,
+                headers: {
+                    'Accept': 'application/json'
+                }
+            });
+
+            if (!uploadResponse.ok) {
+                throw new Error('Error al subir la imagen');
+            }
+
+            const data = await uploadResponse.json();
+            console.log("Respuesta de subida de imagen:", data);
+
+            const idCategoria = asignarIdCategoria(form.subcategoria);
+            const producto = {
+                id: uuidv4(),
+                nombre: form.nombre.trim(),
+                descripcion: form.descripcion || "Sin descripción",
+                subcategoria: form.subcategoria,
+                marca: form.marca || "Sin marca",
+                precio: parseFloat(form.precio) || 0,
+                urlimagen: data.imageUrl,
+                stock: parseInt(form.stock) || 20,
+                idcategoria: idCategoria,
+                categoriaId: idCategoria
+            };
+
+            console.log("Enviando producto:", producto);
+
+            if (submit) {
+                await submit(producto);
+                setMessage("Producto creado exitosamente");
+                setForm({
+                    nombre: "",
+                    descripcion: "",
+                    imagen: "",
+                    subcategoria: "",
+                    marca: "",
+                    precio: "",
+                    stock: ""
+                });
+                return;
+            }
+
+            const productResponse = await fetch('https://ferretodo.onrender.com/create/product', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                    'Accept': 'application/json'
+                },
+                body: JSON.stringify(producto)
+            });
+
+            if (!productResponse.ok) {
+                const responseData = await productResponse.json();
+                throw new Error(responseData.error || 'Error al crear el producto');
+            }
+
             setMessage("Producto creado exitosamente");
-            // Limpiar el formulario
             setForm({
                 nombre: "",
                 descripcion: "",
@@ -136,12 +184,12 @@ export default function Form({ submit }) {
                 subcategoria: "",
                 marca: "",
                 precio: "",
-                stock: 0,
-                medidas: ""
+                stock: ""
             });
+
         } catch (error) {
-            console.error("Error al crear el producto:", error.response?.data || error.message);
-            setMessage("Error al crear el producto");
+            console.error("Error detallado:", error);
+            setMessage("Error: " + (error.message || 'Error desconocido al crear el producto'));
         }
     }
 
@@ -176,7 +224,11 @@ export default function Form({ submit }) {
                 <input
                     name="imagen"
                     type="file"
-                    onChange={handleChange}
+                    accept="image/*"  // Añadido
+                    onChange={(e) => {
+                        console.log("Archivo seleccionado:", e.target.files[0]); // Debug
+                        handleChange(e);
+                    }}
                     className={errors.imagen && "inputError"}
                 />
                 {errors.imagen && (

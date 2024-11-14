@@ -1,6 +1,6 @@
 import axios from "axios";
 import { GET_USER_FAVS, ADD_TO_FAVS, REMOVE_FROM_FAVS, GET_FAV_DETAILS } from './actionTypes';
-const API_URL = 'http://localhost:3001';
+const API_URL = 'https://ferretodo.onrender.com';
 
 export const getUserId = (userName, userMail) => async dispatch => {
   try {
@@ -42,13 +42,24 @@ export const addToFavs = (userId, productId) => async (dispatch) => {
   }
 };
 
-export const deleteUserFav = (userId, productId) => async (dispatch) => {
-  try {
-    await axios.delete(`${API_URL}/favoritos/${userId}/${productId}`);
-    dispatch({ type: REMOVE_FROM_FAVS, payload: productId });
-  } catch (error) {
-    console.error('Error removing from favorites:', error);
-  }
+export const deleteUserFav = (userId, productId) => {
+  return async (dispatch) => {
+    try {
+      await axios.delete(`${API_URL}/favoritos/delete/${userId}/${productId}`);
+      
+      dispatch({
+        type: "DELETE_FAV",
+        payload: productId
+      });
+      
+      // Actualizar la lista después de eliminar
+      dispatch(getAllFavs(userId));
+      
+    } catch (error) {
+      console.error("Error removing from favorites:", error);
+      throw error;
+    }
+  };
 };
 
 export const getFavProducts = (productId) => async (dispatch) => {

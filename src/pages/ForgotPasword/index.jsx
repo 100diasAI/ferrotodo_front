@@ -21,7 +21,7 @@ const ForgotPassword = () => {
     e.preventDefault()
     try {
         setValidEmail("")
-        const {data} = await axios.post('http://localhost:3001/user/olvide-password/',
+        const {data} = await axios.post('https://ferretodo.onrender.com/user/olvide-password/',
             {email: emailValue} , { withCredentials: true }
         )
         setValidEmail(data.msg)

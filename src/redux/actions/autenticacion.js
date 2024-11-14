@@ -6,12 +6,12 @@ import {
   LOGOUT,
 } from "./actionTypes";
 
-const API_URL = "http://localhost:3001/user/";
+const API_URL = "https://ferretodo.onrender.com/user/";
 
 export const loginGoogle = (data) => async (dispatch) => {
   dispatch(fetchloginBegin());
   try {
-    const response = await fetch("http://localhost:3001/v1/auth/google", {
+    const response = await fetch("https://ferretodo.onrender.com/v1/auth/google", {
       method: "POST",
       headers: {
         Accept: "application/json",

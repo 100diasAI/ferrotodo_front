@@ -16,7 +16,7 @@ const ActivityTracker = (WrappedComponent) => {
     const logActivity = useCallback(async (accion, detalles = {}) => {
       if (currentUser) {
         try {
-          const response = await axios.post('http://localhost:3001/bitacora', {
+          const response = await axios.post('https://ferretodo.onrender.com/bitacora', {
             usuarioId: currentUser.id,
             accion,
             detalles: {
@@ -40,7 +40,7 @@ const ActivityTracker = (WrappedComponent) => {
     const updateActivity = useCallback(async (id, updates) => {
       if (currentUser && id) {
         try {
-          const response = await axios.put(`http://localhost:3001/bitacora/${id}`, updates);
+          const response = await axios.put(`https://ferretodo.onrender.com/bitacora/${id}`, updates);
           console.log('Actividad actualizada:', response.data);
         } catch (error) {
           console.error('Error al actualizar actividad:', error);

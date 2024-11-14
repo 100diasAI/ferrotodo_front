@@ -11,7 +11,7 @@ import {
   CHANGE_MODAL_CLOSE,
 } from "./actionTypes";
 
-const URL_SERVER = "http://localhost:3001/";
+const URL_SERVER = "https://ferretodo.onrender.com/";
 
 export function postReviews(id, payload) {
   return async function (dispatch) {

@@ -8,7 +8,7 @@ import {
 export const getBitacora = () => async (dispatch) => {
   dispatch({ type: GET_BITACORA_BEGIN });
   try {
-    const response = await axios.get('http://localhost:3001/bitacora');
+    const response = await axios.get('https://ferretodo.onrender.com/bitacora');
     console.log('Respuesta de la API:', response.data);
     dispatch({
       type: GET_BITACORA_SUCCESS,

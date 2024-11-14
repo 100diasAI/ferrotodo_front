@@ -1,7 +1,7 @@
 import React from "react";
 import BarChart from "../../components/DashboardAdmin/graficoBarras";
 import LineChart from "../../components/DashboardAdmin/graficoLineas";
-import Totales from "../../components/DashboardAdmin/Totales";
+import Totales from "../../components/DashboardAdmin/totales";
 import './index.css'
 
 export default function Admin() {

@@ -104,6 +104,20 @@ export default function productReducer(state = initialState, action) {
         ...state,
         sucursales: action.payload
       }
+    case 'UPDATE_USER_SUCCESS':
+      return {
+        ...state,
+        usuariosFiltrados: state.usuariosFiltrados.map(user => 
+          user.id === action.payload.id 
+            ? { ...user, ...action.payload.changes }
+            : user
+        ),
+        usuarios: state.usuarios.map(user => 
+          user.id === action.payload.id 
+            ? { ...user, ...action.payload.changes }
+            : user
+        )
+      };
     default:
       return state;
   }

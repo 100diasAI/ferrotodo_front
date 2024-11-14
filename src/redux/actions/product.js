@@ -16,25 +16,25 @@ import {
   GET_PRODUCTS_FAIL_SEARCH,
 } from "./actionTypes";
 
-const URL_SERVER = "http://localhost:3001";
+const URL_SERVER = "https://ferretodo.onrender.com";
 
 export const getProducts = (search) => {
   return async (dispatch) => {
     dispatch(fetchProductsBegin());
     try {
       const url = new URL(`${URL_SERVER}/products`);
-      if (search) {
-        const params = new URLSearchParams(url.search);
-        const { name } = search;
-        params.set("name", name);
-        if (params) url.search = params;
-      }
       const response = await fetch(url);
-      const res = await handleErrors(response);
-      const json = await res.json();
+      
+      if (!response.ok) {
+        throw new Error(`HTTP error! status: ${response.status}`);
+      }
+      
+      const json = await response.json();
+      console.log("Productos recibidos:", json.productos);
       return dispatch(fetchProductsSuccess(json.productos));
     } catch (error) {
-      return dispatch(fetchProductsFailure(error));
+      console.error("Error en getProducts:", error);
+      return dispatch(fetchProductsFailure(error.message));
     }
   };
 };
@@ -110,31 +110,63 @@ export const clearProduct = () => {
   };
 };
 
-export function deleteProduct(payload) {
-  return async function () {
-    try {
-      const response = await axios.delete(`${URL_SERVER}/product/delete/` + payload, { withCredentials: true });
-      return response;
-    } catch (e) {
-      console.log(e);
-    }
-  };
-}
+export const deleteProduct = (id) => {
+    return async (dispatch) => {
+        try {
+            const response = await fetch(`${URL_SERVER}/product/delete/${id}`, {
+                method: 'DELETE',
+                headers: {
+                    'Content-Type': 'application/json'
+                }
+            });
 
-export function updateProduct(payload) {
-  return async function () {
-    try {
-      const response = await axios.put(`${URL_SERVER}/edit/product/`, payload, { withCredentials: true });
-      return response;
-    } catch (e) {
-      console.log(e);
-    }
-  };
-}
+            if (!response.ok) {
+                throw new Error('Error al eliminar el producto');
+            }
+
+            dispatch({
+                type: DELETE_PRODUCT,
+                payload: id
+            });
+
+            // Recargar productos después de eliminar
+            dispatch(getProducts());
+
+        } catch (error) {
+            console.error("Error al eliminar:", error);
+            throw error;
+        }
+    };
+};
+
+export const updateProduct = (product) => {
+    return async (dispatch) => {
+        try {
+            const response = await fetch(`${URL_SERVER}/edit/product`, {
+                method: 'PUT',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify(product)
+            });
+
+            if (!response.ok) {
+                throw new Error('Error al actualizar el producto');
+            }
+
+            // Recargar productos después de actualizar
+            dispatch(getProducts());
+
+        } catch (error) {
+            console.error("Error al actualizar:", error);
+            throw error;
+        }
+    };
+};
 
 export const getCategories = () => async (dispatch) => {
   try {
-    const response = await axios.get(`${API_URL}/categories`);
+    const response = await axios.get(`${URL_SERVER}/categories`);
     dispatch({
       type: GET_CATEGORIES,
       payload: response.data
@@ -199,3 +231,27 @@ export const filterByBrands = (brands) => {
     payload: brands
   }
 }
+
+export const updateStock = (productId, stockData) => {
+    return async (dispatch) => {
+        try {
+            const response = await fetch(`${URL_SERVER}/products/stock/${productId}`, {
+                method: 'PUT',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify(stockData)
+            });
+            
+            if (!response.ok) {
+                throw new Error('Error al actualizar el stock');
+            }
+            
+            dispatch(getProducts()); // Recargar productos
+            return true;
+        } catch (error) {
+            console.error('Error:', error);
+            throw error;
+        }
+    };
+};

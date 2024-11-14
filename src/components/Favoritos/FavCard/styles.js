@@ -97,3 +97,23 @@ export const StockInfo = styled.p`
   color: #666;
   margin-top: 5px;
 `;
+
+export const DeleteButton = styled.button`
+  position: absolute;
+  top: 10px;
+  right: 10px;
+  background-color: #ff4444;
+  color: white;
+  border: none;
+  padding: 8px 16px;
+  border-radius: 4px;
+  cursor: pointer;
+  font-size: 14px;
+  transition: all 0.3s ease;
+  z-index: 100;
+
+  &:hover {
+    background-color: #cc0000;
+    transform: scale(1.05);
+  }
+`;

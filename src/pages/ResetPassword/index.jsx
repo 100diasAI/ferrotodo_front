@@ -20,7 +20,7 @@ const ResetPassword = () => {
     const ChangePassword = async (e) => {
         e.preventDefault()
         try {
-            const {data} = await axios.post(`http://localhost:3001/user/olvide-password/${token}`,
+            const {data} = await axios.post(`https://ferretodo.onrender.com/user/olvide-password/${token}`,
                 {password: newPassword} , { withCredentials: true }
             )
             setTimeout(() => {
@@ -33,7 +33,7 @@ const ResetPassword = () => {
 
     useEffect(() => {
         const checkToken = async () => {
-            const {data} = await axios.get(`http://localhost:3001/user/olvide-password/${token}`)
+            const {data} = await axios.get(`https://ferretodo.onrender.com/user/olvide-password/${token}`)
             setValidToken(data), { withCredentials: true }
         }
 
